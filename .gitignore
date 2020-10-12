@@ -11,4 +11,5 @@ build
 .project
 
 # Ignore .class files
+/bin
 *.class
