@@ -1,3 +1,11 @@
 .gradle
 **/build/
 !src/**/build/
+# Ignore Gradle build output directory
+build
+
+# Ignore VSCode settings
+**/.vscode
+**/.settings
+.classpath
+.project
