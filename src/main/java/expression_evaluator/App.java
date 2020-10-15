@@ -53,47 +53,68 @@ public class App {
         }
     }
 
+    /**
+     * Runs the plugin manager submenu
+     */
     private static void runPluginManager() {
 
     }
 
+    /**
+     * Runs the equation evaluator program
+     */
     private static void runEquationEvaluator() {
         Scanner sc = new Scanner(System.in);
 
-        try (PythonInterpreter pyInter = new PythonInterpreter()) {
-            System.out.print("Enter a valid expression with x as the variable: ");
-            String expression = sc.nextLine();
-            int minX, maxX, incX;
-            while (true) {
-                try {
-                    System.out.print("Enter a minX: ");
-                    minX = Integer.parseInt(sc.nextLine());
-                    System.out.print("Enter a maxX (must be larger than minX): ");
-                    maxX = Integer.parseInt(sc.nextLine());
-                    if (minX > maxX) {
-                        throw new IllegalArgumentException("maxX must be smaller than minX");
-                    }
-                    System.out.print("Enter an incX (must be a positive integer): ");
-                    incX = Integer.parseInt(sc.nextLine());
-                    if (incX <= 0) {
-                        throw new IllegalArgumentException("incX must be a positive integer");
-                    }
-                    break;
-                } catch (NumberFormatException e) {
-                    clearTerminal();
-                    System.out.println("minX, maxX and incX must be valid integers");
-                    System.out.println("Please try again.");
-                    continue;
-                } catch (IllegalArgumentException e) {
-                    clearTerminal();
-                    System.out.println(e.getMessage());
-                    System.out.println("Please try again.");
-                    continue;
+        // Get user input for expression, minX, maxX and incX
+        System.out.print("Enter a valid expression with x as the variable: ");
+        String expression = sc.nextLine();
+        int minX, maxX, incX;
+        while (true) {
+            try {
+                System.out.print("Enter a minX: ");
+                minX = Integer.parseInt(sc.nextLine());
+                System.out.print("Enter a maxX (must be larger than minX): ");
+                maxX = Integer.parseInt(sc.nextLine());
+                if (minX > maxX) {
+                    throw new IllegalArgumentException("maxX must be smaller than minX");
                 }
+                System.out.print("Enter an incX (must be a positive integer): ");
+                incX = Integer.parseInt(sc.nextLine());
+                if (incX <= 0) {
+                    throw new IllegalArgumentException("incX must be a positive integer");
+                }
+                break;
+            } catch (NumberFormatException e) {
+                clearTerminal();
+                System.out.println("minX, maxX and incX must be valid integers");
+                System.out.println("Please try again.");
+                continue;
+            } catch (IllegalArgumentException e) {
+                clearTerminal();
+                System.out.println(e.getMessage());
+                System.out.println("Please try again.");
+                continue;
             }
-            String script = String.format("float(%s)", minX);
-            double result = ((PyFloat) pyInter.eval(script)).getValue();
-            System.out.println("MIN X RESULT: " + result);
+        }
+
+        // Execute python script to fetch values of y
+        try (PythonInterpreter pyInter = new PythonInterpreter()) {
+            clearTerminal();
+            System.out.println("---------------------------------------------");
+            System.out.println(String.format("Evaluating expression '%s'", expression));
+            System.out.println(String.format("MIN-X: %d", minX));
+            System.out.println(String.format("MAX-X: %d", maxX));
+            System.out.println(String.format("INCREMENT: %d", incX));
+            for (int i = minX; i <= maxX; i += incX) {
+                // Replace x in expression with actual number
+                String finalExpression = expression.replace("x", Integer.toString(i));
+                // Pass the expression to PythonInterpreter's eval() method to evaluate it
+                String script = String.format("float(%s)", finalExpression);
+                // Get the result
+                double result = ((PyFloat) pyInter.eval(script)).getValue();
+                System.out.println(String.format("currX: %d | Y = %f", i, result));
+            }
         }
     }
 
