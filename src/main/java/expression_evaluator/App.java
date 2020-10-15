@@ -113,7 +113,7 @@ public class App {
                 String script = String.format("float(%s)", finalExpression);
                 // Get the result
                 double result = ((PyFloat) pyInter.eval(script)).getValue();
-                System.out.println(String.format("currX: %d | Y = %f", i, result));
+                System.out.println(String.format("currX: %d | Y = %.2f", i, result));
             }
         }
     }
