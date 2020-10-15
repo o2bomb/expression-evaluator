@@ -16,8 +16,6 @@ plugins {
 
 allprojects {
     repositories {
-        // Use jcenter for resolving dependencies.
-        // You can declare any Maven/Ivy/file repository here.
         jcenter()
     }
 }
@@ -30,6 +28,9 @@ dependencies {
     // Compile subprojects and depend on them
     implementation project(':plugin-api')
 
+    // This dependency is used for scripting
+    implementation 'org.python:jython-slim:2.7.2'
+
     // This dependency is used by the application.
     implementation 'com.google.guava:guava:29.0-jre'
 
@@ -40,4 +41,8 @@ dependencies {
 application {
     // Define the main class for the application.
     mainClassName = 'expression_evaluator.App'
+}
+
+run {
+    standardInput System.in
 }
