@@ -3,8 +3,102 @@
  */
 package expression_evaluator;
 
+import java.util.Scanner;
+
+import org.python.core.PyFloat;
+import org.python.util.PythonInterpreter;
+
 public class App {
     public static void main(String[] args) {
-        new Printer().printSomething();
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Welcome to Expression Evaluator.");
+
+        inputLoop: while (true) {
+            try {
+                System.out.println("---------------------------------------------");
+                System.out.println("[1] Manage plugins");
+                System.out.println("[2] Run equation evaluator");
+                System.out.println("[0] Exit program");
+                System.out.print("Please enter a choice: ");
+                String input = sc.nextLine();
+                int choice = Integer.parseInt(input);
+                System.out.println(String.format("You have selected [%d]", choice));
+
+                switch (choice) {
+                    case 0:
+                        // Exit input loop/program
+                        break inputLoop;
+                    case 1:
+                        clearTerminal();
+                        // Manage plugins
+                        runPluginManager();
+                        break;
+                    case 2:
+                        clearTerminal();
+                        // Evaluate equation
+                        runEquationEvaluator();
+                        break;
+                    default:
+                        clearTerminal();
+                        // Choice is invalid; continue loop
+                        System.out.println("Invalid input, enter a number from 0 to 2");
+                        break;
+                }
+            } catch (NumberFormatException e) {
+                clearTerminal();
+                // Choice is invalid; continue loop
+                System.out.println("Invalid input, enter a number from 0 to 2");
+                continue;
+            }
+        }
+    }
+
+    private static void runPluginManager() {
+
+    }
+
+    private static void runEquationEvaluator() {
+        Scanner sc = new Scanner(System.in);
+
+        try (PythonInterpreter pyInter = new PythonInterpreter()) {
+            System.out.print("Enter a valid expression with x as the variable: ");
+            String expression = sc.nextLine();
+            int minX, maxX, incX;
+            while (true) {
+                try {
+                    System.out.print("Enter a minX: ");
+                    minX = Integer.parseInt(sc.nextLine());
+                    System.out.print("Enter a maxX (must be larger than minX): ");
+                    maxX = Integer.parseInt(sc.nextLine());
+                    if (minX > maxX) {
+                        throw new IllegalArgumentException("maxX must be smaller than minX");
+                    }
+                    System.out.print("Enter an incX (must be a positive integer): ");
+                    incX = Integer.parseInt(sc.nextLine());
+                    if (incX <= 0) {
+                        throw new IllegalArgumentException("incX must be a positive integer");
+                    }
+                    break;
+                } catch (NumberFormatException e) {
+                    clearTerminal();
+                    System.out.println("minX, maxX and incX must be valid integers");
+                    System.out.println("Please try again.");
+                    continue;
+                } catch (IllegalArgumentException e) {
+                    clearTerminal();
+                    System.out.println(e.getMessage());
+                    System.out.println("Please try again.");
+                    continue;
+                }
+            }
+            String script = String.format("float(%s)", minX);
+            double result = ((PyFloat) pyInter.eval(script)).getValue();
+            System.out.println("MIN X RESULT: " + result);
+        }
+    }
+
+    private static void clearTerminal() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
     }
 }
