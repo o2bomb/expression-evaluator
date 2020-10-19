@@ -1,0 +1,11 @@
+plugins {
+    id 'java'
+}
+
+dependencies {
+    implementation project(':plugin-api')
+}
+
+run {
+    standardInput System.in
+}
