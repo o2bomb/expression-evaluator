@@ -11,7 +11,7 @@ package plugin_api;
  * Plugins may also add methods that act as mathematical functions that are used
  * in expressions. To implement one, the method <b>must</b>:
  * <ul>
- * <li>Be a static method</li>
+ * <li>Be a public, static method</li>
  * <li>The name of the method must be the same as the name of the mathematical
  * function that is contained within the expression that has been invoked</li>
  * </ul>
