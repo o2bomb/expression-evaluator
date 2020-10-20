@@ -11,5 +11,5 @@ public interface YReceiver {
      * 
      * @param y The calculated y value
      */
-    void collect(int y);
+    void collect(double y);
 }
