@@ -12,5 +12,5 @@ To load in a plugin, select `[1] Manage plugins` => `[2] Load new plugin`. When 
 
 To include your own plugin in this gradle project, you must complete the following:
 - the plugin must be built and compiled
-- `settings.gradle` must include your plugin as a sub project
-- `build.gradle` must specify your plugin as a dependency
+- the root project's `settings.gradle` must include your plugin as a sub project
+- the root project's `build.gradle` must specify your plugin as a dependency
