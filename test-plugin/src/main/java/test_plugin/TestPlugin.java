@@ -3,6 +3,7 @@ package test_plugin;
 import java.util.*;
 
 import plugin_api.APIControl;
+import plugin_api.ScriptModifier;
 import plugin_api.Plugin;
 import plugin_api.YNotifier;
 import plugin_api.YReceiver;
@@ -10,8 +11,9 @@ import plugin_api.YReceiver;
 public class TestPlugin implements Plugin {
     private YNotifier notifier;
     private YReceiver receiver;
+    private ScriptModifier modifier;
     private List<Long> yTimes;
-    private List<Integer> yValues;
+    private List<Double> yValues;
 
     public TestPlugin() {
         yTimes = new ArrayList<>();
@@ -19,15 +21,24 @@ public class TestPlugin implements Plugin {
 
         notifier = new YNotifier() {
             @Override
-            public void notify(long timeSinceStart) {
-                yTimes.add(timeSinceStart);
+            public void notify(long timeAtLaunch, long currentTime) {
+                yTimes.add(currentTime);
             }
         };
 
         receiver = new YReceiver() {
             @Override
-            public void collect(int y) {
+            public void collect(double y) {
                 yValues.add(y);
+            }
+        };
+
+        modifier = new ScriptModifier(){
+            @Override
+            public String modifyScript(String script) {
+                return script
+                 + "def foobar(num):\n"
+                 + "    return 69";
             }
         };
     }
@@ -36,9 +47,6 @@ public class TestPlugin implements Plugin {
     public void start(APIControl control) {
         control.registerYNotifier(notifier);
         control.registerYReceiver(receiver);
-    }
-
-    public static int foo(int val1, int val2) {
-        return val1 + val2;
+        control.registerScriptModifier(modifier);
     }
 }
