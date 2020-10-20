@@ -66,7 +66,6 @@ public class EquationEvaluator implements APIControl {
                 // Append expression to script
                 script += finalExpression;
                 script += "\nstoreY(y)";
-                System.out.println(String.format("FINAL SCRIPT: \n%s", script));
                 // Execute the script
                 try {
                     pyInter.exec(script);
