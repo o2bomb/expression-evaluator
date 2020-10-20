@@ -147,6 +147,7 @@ public class App {
 
         // Execute python script to fetch values of y
         evaluator.runEvaluator(expression, minX, maxX, incX);
+        evaluator.reset();
     }
 
     public static void clearTerminal() {

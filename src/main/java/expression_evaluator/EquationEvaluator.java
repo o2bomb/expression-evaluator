@@ -20,6 +20,7 @@ public class EquationEvaluator implements APIControl {
     private int maxX;
     private int incX;
     private long timeAtLaunch;
+    private int yCount;
 
     public static EquationEvaluator instance = null;
 
@@ -40,6 +41,7 @@ public class EquationEvaluator implements APIControl {
         maxX = 0;
         incX = 0;
         timeAtLaunch = 0;
+        yCount = 0;
     }
 
     public void runEvaluator(String expression, int minX, int maxX, int incX) {
@@ -103,9 +105,22 @@ public class EquationEvaluator implements APIControl {
             r.collect(y);
         }
 
+        yCount++;
         for (YNotifier n : notifiers) {
-            n.notify(timeAtLaunch, System.currentTimeMillis());
+            n.notify(timeAtLaunch, System.currentTimeMillis(), yCount);
         }
+    }
+
+    /**
+     * Resets the evaluator's state
+     */
+    public void reset() {
+        expression = "";
+        minX = 0;
+        maxX = 0;
+        incX = 0;
+        timeAtLaunch = 0;
+        yCount = 0;
     }
 
     @Override

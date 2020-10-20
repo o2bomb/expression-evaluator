@@ -21,7 +21,7 @@ public class TestPlugin implements Plugin {
 
         notifier = new YNotifier() {
             @Override
-            public void notify(long timeAtLaunch, long currentTime) {
+            public void notify(long timeAtLaunch, long currentTime, int yCount) {
                 yTimes.add(currentTime);
             }
         };
