@@ -28,6 +28,7 @@ dependencies {
     // Compile subprojects and depend on them
     implementation project(':plugin-api')
     implementation project(':test-plugin')
+    implementation project(':progress-indicator')
 
     // This dependency is used for scripting
     implementation 'org.python:jython-slim:2.7.2'
