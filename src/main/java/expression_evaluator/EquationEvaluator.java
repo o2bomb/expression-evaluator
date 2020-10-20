@@ -22,7 +22,7 @@ public class EquationEvaluator implements APIControl {
     private long timeAtLaunch;
     private int yCount;
 
-    public static EquationEvaluator instance = null;
+    private static EquationEvaluator instance = null;
 
     public static EquationEvaluator getInstance() {
         if (instance == null) {
@@ -51,32 +51,31 @@ public class EquationEvaluator implements APIControl {
         this.incX = incX;
         this.timeAtLaunch = System.currentTimeMillis();
 
+        App.clearTerminal();
+        System.out.println("---------------------------------------------");
+        System.out.println(String.format("Evaluating expression '%s'", expression));
+        System.out.println(String.format("MIN-X: %d", minX));
+        System.out.println(String.format("MAX-X: %d", maxX));
+        System.out.println(String.format("INCREMENT: %d", incX));
+        // Initialise script
+        String header = initialiseScript();
         try (PythonInterpreter pyInter = new PythonInterpreter()) {
-            App.clearTerminal();
-            System.out.println("---------------------------------------------");
-            System.out.println(String.format("Evaluating expression '%s'", expression));
-            System.out.println(String.format("MIN-X: %d", minX));
-            System.out.println(String.format("MAX-X: %d", maxX));
-            System.out.println(String.format("INCREMENT: %d", incX));
-            // Initialise script
-            String script = initialiseScript();
             for (int i = minX; i <= maxX; i += incX) {
                 // Replace x in expression with actual number and wrap it in float()
                 String finalExpression = "\ntry:\n"
-                        + String.format("    y = float(%s)\n", expression.replace("x", Integer.toString(i)))
-                        + "except NameError, err:\n" + "    raise Exception(err)";
+                + String.format("    y = float(%s)\n", expression.replace("x", Integer.toString(i)))
+                + "except NameError, err:\n" + "    raise Exception(err)\n";
                 // Append expression to script
+                String script = header;
                 script += finalExpression;
+                // script += "print('script is executing')\n";
                 script += "\nstoreY(y)";
                 // Execute the script
-                try {
-                    pyInter.exec(script);
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());
-                    System.out.println("Perhaps you forgot to load in a plugin?");
-                    break;
-                }
+                pyInter.exec(script);
             }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.out.println("Perhaps you forgot to load in a plugin?");
         }
     }
 
