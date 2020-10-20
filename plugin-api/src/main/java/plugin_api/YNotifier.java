@@ -11,8 +11,8 @@ public interface YNotifier {
      * been calculated, specifying the time elapsed since the start of the
      * calculation of the first y value
      * 
-     * @param timeSinceStart The time (in milliseconds) that has elapsed since the
-     *                       start of the first calculation
+     * @param timeAtLaunch The time (in milliseconds) of the start of calculation
+     * @param currentTime The time (in milliseconds) that has elapsed since the start of the first calculation
      */
-    void notify(long timeSinceStart);
+    void notify(long timeAtLaunch, long currentTime);
 }

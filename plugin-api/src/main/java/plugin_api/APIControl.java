@@ -23,6 +23,13 @@ public interface APIControl {
     void registerYReceiver(YReceiver receiver);
 
     /**
+     * Registers an ScriptModifier in the main application
+     * @param modifier An ScriptModifier containing the callback method
+     * @see ScriptModifier
+     */
+    void registerScriptModifier(ScriptModifier modifier);
+
+    /**
      * Retrieves the expression to be evaluated
      * 
      * @return The expression to be evaluated
