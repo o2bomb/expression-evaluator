@@ -5,10 +5,10 @@ package expression_evaluator;
 
 import java.util.Scanner;
 
-import org.python.core.PyFloat;
-import org.python.util.PythonInterpreter;
-
 public class App {
+    private static EquationEvaluator evaluator = new EquationEvaluator();
+    private static PluginManager pluginManager = new PluginManager(evaluator);
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         System.out.println("Welcome to Expression Evaluator.");
@@ -57,7 +57,54 @@ public class App {
      * Runs the plugin manager submenu
      */
     private static void runPluginManager() {
+        Scanner sc = new Scanner(System.in);
 
+        inputLoop: while (true) {
+            try {
+                // Get user input for loading in a plugin or showing all loaded plugins
+                System.out.println("---------------------------------------------");
+                System.out.println("[1] Show all plugins");
+                System.out.println("[2] Load new plugin");
+                System.out.println("[0] Back");
+                System.out.print("Please enter a choice: ");
+                String input = sc.nextLine();
+                int choice = Integer.parseInt(input);
+                System.out.println(String.format("You have selected [%d]", choice));
+
+                switch (choice) {
+                    case 0:
+                        // Exit current input loop
+                        clearTerminal();
+                        break inputLoop;
+                    case 1:
+                        clearTerminal();
+                        // Show all plugins
+                        if (pluginManager.viewPlugins().size() > 0) {
+                            System.out.println("Currently loaded plugins:");
+                            for (Class<?> p : pluginManager.viewPlugins()) {
+                                System.out.println(p.getName());
+                            }
+                        } else {
+                            System.out.println("No plugins loaded. Try loading one in and try again");
+                        }
+                        break;
+                    case 2:
+                        clearTerminal();
+                        // Load in new plugin
+                        loadPlugin();
+                        break;
+                    default:
+                        clearTerminal();
+                        // Choice is invalid; continue loop
+                        System.out.println("Invalid input, enter a number from 0 to 2");
+                        break;
+                }
+            } catch (NumberFormatException e) {
+                clearTerminal();
+                System.out.println("Invalid input, enter a number from 0 to 2");
+                continue;
+            }
+        }
     }
 
     /**
@@ -99,27 +146,24 @@ public class App {
         }
 
         // Execute python script to fetch values of y
-        try (PythonInterpreter pyInter = new PythonInterpreter()) {
-            clearTerminal();
-            System.out.println("---------------------------------------------");
-            System.out.println(String.format("Evaluating expression '%s'", expression));
-            System.out.println(String.format("MIN-X: %d", minX));
-            System.out.println(String.format("MAX-X: %d", maxX));
-            System.out.println(String.format("INCREMENT: %d", incX));
-            for (int i = minX; i <= maxX; i += incX) {
-                // Replace x in expression with actual number
-                String finalExpression = expression.replace("x", Integer.toString(i));
-                // Pass the expression to PythonInterpreter's eval() method to evaluate it
-                String script = String.format("float(%s)", finalExpression);
-                // Get the result
-                double result = ((PyFloat) pyInter.eval(script)).getValue();
-                System.out.println(String.format("currX: %d | Y = %.2f", i, result));
-            }
-        }
+        evaluator.runEvaluator(expression, minX, maxX, incX);
     }
 
-    private static void clearTerminal() {
+    public static void clearTerminal() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
+    }
+
+    private static void loadPlugin() {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter the plugins full name (including package): ");
+        String pluginName = sc.nextLine();
+        try {
+            // Attempt to load plugin in
+            pluginManager.loadPlugin(pluginName);
+        } catch (PluginLoadException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }
