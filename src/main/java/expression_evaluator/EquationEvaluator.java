@@ -1,8 +1,9 @@
 package expression_evaluator;
 
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
 
-import org.python.util.*;
+import org.python.util.PythonInterpreter;
 
 import plugin_api.APIControl;
 import plugin_api.ScriptModifier;
@@ -20,7 +21,16 @@ public class EquationEvaluator implements APIControl {
     private int incX;
     private long timeAtLaunch;
 
-    public EquationEvaluator() {
+    public static EquationEvaluator instance = null;
+
+    public static EquationEvaluator getInstance() {
+        if (instance == null) {
+            instance = new EquationEvaluator();
+        }
+        return instance;
+    }
+
+    private EquationEvaluator() {
         notifiers = new LinkedList<>();
         receivers = new LinkedList<>();
         modifiers = new LinkedList<>();
@@ -50,11 +60,9 @@ public class EquationEvaluator implements APIControl {
             String script = initialiseScript();
             for (int i = minX; i <= maxX; i += incX) {
                 // Replace x in expression with actual number and wrap it in float()
-                String finalExpression = 
-                "\ntry:\n"
-                + String.format("    y = float(%s)\n", expression.replace("x", Integer.toString(i)))
-                + "except NameError, err:\n"
-                + "    raise Exception(err)";
+                String finalExpression = "\ntry:\n"
+                        + String.format("    y = float(%s)\n", expression.replace("x", Integer.toString(i)))
+                        + "except NameError, err:\n" + "    raise Exception(err)";
                 // Append expression to script
                 script += finalExpression;
                 script += "\nstoreY(y)";

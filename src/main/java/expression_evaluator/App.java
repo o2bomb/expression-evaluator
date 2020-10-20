@@ -6,7 +6,7 @@ package expression_evaluator;
 import java.util.Scanner;
 
 public class App {
-    private static EquationEvaluator evaluator = new EquationEvaluator();
+    private static EquationEvaluator evaluator = EquationEvaluator.getInstance();
     private static PluginManager pluginManager = new PluginManager(evaluator);
 
     public static void main(String[] args) {

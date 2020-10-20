@@ -5,9 +5,9 @@ package expression_evaluator;
  * with the main program
  */
 public class ScriptBridger {
-    
+    private static EquationEvaluator evaluator = EquationEvaluator.getInstance();
 
     public static void storeY(double y) {
-        System.out.println("CALCULATED VALUE OF Y: " + y);
+        evaluator.storeCalculatedY(y);
     }
 }
