@@ -15,3 +15,21 @@ To include your own plugin in this gradle project, you must complete the followi
 - the plugin must be built and compiled
 - the root project's `settings.gradle` must include your plugin as a sub project
 - the root project's `build.gradle` must specify your plugin as a dependency
+
+## Project structure
+```
+<root project directory>
+├── csv-output              # CSVOutput plugin
+├── factorial-fibonnaci     # FactorialFibonnaci plugin sub-project
+├── progress-indicator      # ProgressIndicator plugin
+├── native-plugin           # NativePluing plugin
+├── plugin-api              # Plugin API interfaces
+├── src                     # Main program source files
+├── build.gradle
+├── settings.gradle
+├── gradlew
+├── gradlew.bat
+├── .gitattributes
+├── .gitignore
+└── README.md
+```
