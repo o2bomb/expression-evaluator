@@ -4,6 +4,10 @@ import plugin_api.APIControl;
 import plugin_api.Plugin;
 import plugin_api.ScriptModifier;
 
+/**
+ * A plugin that adds two new mathematical functions - fibonnaci(n) 
+ * and factorial(n) - that can be invoked from the main program
+ */
 public class FactorialFibonnaci implements Plugin {
     private ScriptModifier modifier;
 

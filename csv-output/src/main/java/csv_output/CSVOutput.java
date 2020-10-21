@@ -12,11 +12,15 @@ import plugin_api.APIControl;
 import plugin_api.Plugin;
 import plugin_api.YReceiver;
 
+/**
+ * A plugin that writes all results to a csv file (output.csv) in the root
+ * directory of the project
+ */
 public class CSVOutput implements Plugin {
     private YReceiver receiver;
 
     private List<ResultTuple> results;
-    
+
     public CSVOutput() {
         results = new ArrayList<>();
 
@@ -35,7 +39,7 @@ public class CSVOutput implements Plugin {
     }
 
     private void writeToCsv(double x, double y) {
-        try (CSVPrinter printer = new CSVPrinter(new FileWriter("output.csv"), CSVFormat.DEFAULT.withHeader("x, y"))){
+        try (CSVPrinter printer = new CSVPrinter(new FileWriter("output.csv"), CSVFormat.DEFAULT.withHeader("x, y"))) {
             for (ResultTuple r : results) {
                 printer.printRecord(r.x, r.y);
             }
