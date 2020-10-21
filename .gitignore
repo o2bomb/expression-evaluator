@@ -13,3 +13,6 @@ build
 # Ignore .class files
 **/bin
 *.class
+
+# Ignore output files
+output.csv
