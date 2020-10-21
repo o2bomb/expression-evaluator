@@ -19,6 +19,7 @@ public class FactorialFibonnaci implements Plugin {
                 + "    elif n == 2: return 1\n"
                 + "    else: return fibonnaci(n-1) + fibonnaci(n-2)\n"
                 + "def factorial(n):\n"
+                + "    if n < 0: return 0\n"
                 + "    result = 1\n"
                 + "    for i in range(1, n + 1):\n"
                 + "        result = result * i\n"
