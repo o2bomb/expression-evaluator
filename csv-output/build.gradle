@@ -1,0 +1,9 @@
+plugins {
+    id 'java'
+}
+
+dependencies {
+    implementation project(':plugin-api')
+
+    implementation 'org.apache.commons:commons-csv:1.8'
+}
