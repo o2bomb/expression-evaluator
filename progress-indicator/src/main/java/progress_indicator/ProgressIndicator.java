@@ -21,7 +21,7 @@ public class ProgressIndicator implements Plugin {
                 double incX = control.getIncX();
                 double percentCompleted = Math.min(100.0 * ((double) yCount / ((maxX - minX) / incX)), 100.0);
                 System.out.println(
-                        String.format("%.2f%% | Time elapsed: %dms", percentCompleted, currentTime - timeAtLaunch));
+                        String.format("[ProgressIndicator] %.2f%% | Time elapsed: %dms", percentCompleted, currentTime - timeAtLaunch));
             }
         };
     }
