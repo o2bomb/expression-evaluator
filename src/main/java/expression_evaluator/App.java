@@ -9,8 +9,9 @@ public class App {
     private static EquationEvaluator evaluator = EquationEvaluator.getInstance();
     private static PluginManager pluginManager = new PluginManager(evaluator);
 
+    private static Scanner sc = new Scanner(System.in);
+
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
         System.out.println("Welcome to Expression Evaluator.");
 
         inputLoop: while (true) {
@@ -51,14 +52,13 @@ public class App {
                 continue;
             }
         }
+        sc.close();
     }
 
     /**
      * Runs the plugin manager submenu
      */
     private static void runPluginManager() {
-        Scanner sc = new Scanner(System.in);
-
         inputLoop: while (true) {
             try {
                 // Get user input for loading in a plugin or showing all loaded plugins
@@ -111,8 +111,6 @@ public class App {
      * Runs the equation evaluator program
      */
     private static void runEquationEvaluator() {
-        Scanner sc = new Scanner(System.in);
-
         // Get user input for expression, minX, maxX and incX
         System.out.print("Enter a valid expression with x as the variable: ");
         String expression = sc.nextLine();
@@ -156,8 +154,6 @@ public class App {
     }
 
     private static void loadPlugin() {
-        Scanner sc = new Scanner(System.in);
-
         System.out.print("Enter the plugins full name (including package): ");
         String pluginName = sc.nextLine();
         try {
