@@ -7,7 +7,7 @@ package expression_evaluator;
 public class ScriptBridger {
     private static EquationEvaluator evaluator = EquationEvaluator.getInstance();
 
-    public static void storeY(double y) {
-        evaluator.storeCalculatedY(y);
+    public static void storeY(double x, double y) {
+        evaluator.storeXY(x, y);
     }
 }

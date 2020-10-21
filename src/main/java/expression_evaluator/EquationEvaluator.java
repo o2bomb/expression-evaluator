@@ -63,13 +63,13 @@ public class EquationEvaluator implements APIControl {
             for (int i = minX; i <= maxX; i += incX) {
                 // Replace x in expression with actual number and wrap it in float()
                 String finalExpression = "\ntry:\n"
-                + String.format("    y = float(%s)\n", expression.replace("x", Integer.toString(i)))
-                + "except NameError, err:\n" + "    raise Exception(err)\n";
+                        + String.format("    y = float(%s)\n", expression.replace("x", Integer.toString(i)))
+                        + "except NameError, err:\n" + "    raise Exception(err)\n";
                 // Append expression to script
                 String script = header;
                 script += finalExpression;
-                // script += "print('script is executing')\n";
-                script += "\nstoreY(y)";
+                // script += "print(y)\n";
+                script += String.format("storeY(%d, y)\n", i);
                 // Execute the script
                 pyInter.exec(script);
             }
@@ -96,12 +96,12 @@ public class EquationEvaluator implements APIControl {
 
     /**
      * This method is called whenever a y value has been calculated. All 3rd-party
-     * plugins that listen for this event will be notified, and those that require y
-     * values will receive it
+     * plugins that listen for this event will be notified, and those that require
+     * x,y values will receive it
      */
-    public void storeCalculatedY(double y) {
+    public void storeXY(double x, double y) {
         for (YReceiver r : receivers) {
-            r.collect(y);
+            r.collect(x, y);
         }
 
         yCount++;

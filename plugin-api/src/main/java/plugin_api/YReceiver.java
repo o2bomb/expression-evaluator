@@ -7,9 +7,11 @@ package plugin_api;
 public interface YReceiver {
     /**
      * A callback method that is called by the main program every time a y value has
-     * been calculated, specifying the y value that has been calculated
+     * been calculated, specifying the y value that has been calculated, and its
+     * corresponding x value
      * 
+     * @param x The corresponding x value
      * @param y The calculated y value
      */
-    void collect(double y);
+    void collect(double x, double y);
 }

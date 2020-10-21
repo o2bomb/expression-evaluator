@@ -28,7 +28,7 @@ public class TestPlugin implements Plugin {
 
         receiver = new YReceiver() {
             @Override
-            public void collect(double y) {
+            public void collect(double x, double y) {
                 yValues.add(y);
             }
         };
