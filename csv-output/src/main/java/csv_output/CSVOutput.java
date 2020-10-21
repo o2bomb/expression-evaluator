@@ -39,6 +39,8 @@ public class CSVOutput implements Plugin {
     }
 
     private void writeToCsv(double x, double y) {
+        // TODO: This code needs to be optimized. It works, but runs in O(n^2) time,
+        // where n is the number of calculations made by the main program
         try (CSVPrinter printer = new CSVPrinter(new FileWriter("output.csv"), CSVFormat.DEFAULT.withHeader("x, y"))) {
             for (ResultTuple r : results) {
                 printer.printRecord(r.x, r.y);

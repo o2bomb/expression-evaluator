@@ -74,6 +74,8 @@ public class EquationEvaluator implements APIControl {
                 pyInter.exec(script);
             }
         } catch (Exception e) {
+            // TODO: This is a terrible way of handling exceptions thrown from the scripting
+            // environment, maybe handle exceptions within the scripting environment itself
             System.out.println(e.getMessage());
             System.out.println("Perhaps you forgot to load in a plugin?");
         }
